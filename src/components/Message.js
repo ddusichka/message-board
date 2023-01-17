@@ -1,0 +1,41 @@
+import React from "react";
+import { auth } from "../firebase";
+
+const style = {
+  message: `flex items-center shadow-xl m-4 mt-6 py-2 px-3 rounded-tl-full rounded-tr-full rounded-br-full float-left`,
+  name: `absolute ml-4 text-gray-600 text-xs`,
+  date: `absolute text-gray-400 text-xs text-right ml-[550px]`,
+  sent: `bg-[#8E57AF] text-white `,
+  received: `bg-[#e5e5ea] text-black`,
+  you: `text-gray-400 italic`,
+};
+
+const Message = ({ message }) => {
+  const messageClass =
+    message.uid === auth.currentUser.uid
+      ? `${style.sent}`
+      : `${style.received}`;
+
+  const addYou =
+    message.uid === auth.currentUser.uid ? (
+      <span className={style.you}> (You)</span>
+    ) : null;
+
+  const timestamp = message.timestamp;
+
+  return (
+    <div>
+      <p className={style.name}>
+        {message.name} {addYou}
+      </p>
+      <div className={`${style.message} ${messageClass}`}>
+        <p className={messageClass}>{message.text}</p>
+      </div>
+      <p className={style.date}>
+        {timestamp ? timestamp.toDate().toString().substring(0, 24) : null}
+      </p>
+    </div>
+  );
+};
+
+export default Message;
