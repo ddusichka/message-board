@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "./components/Navbar";
 import MessageBoard from "./components/MessageBoard";
-import SignInOptions from "./components/SignInOptions";
+import SignIn from "./components/SignIn";
 
 import { auth } from "./firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -20,8 +20,7 @@ function App() {
         {/* Navbar */}
         <Navbar />
         <br></br>
-        {user ? <MessageBoard /> : <SignInOptions />}
-        {/* Chat component */}
+        {user ? <MessageBoard /> : <SignIn />}
       </section>
     </div>
   );

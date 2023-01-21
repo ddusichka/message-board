@@ -17,7 +17,7 @@ const Navbar = () => {
   return (
     <div className={style.nav}>
       <img className={style.image} src={c4c} alt="Logo" width="60" />
-      <h1 className={style.heading}>Message Board</h1>
+      <h1 className={style.heading}>Message Board!</h1>
       {user ? <SignOut /> : null}
     </div>
   );
