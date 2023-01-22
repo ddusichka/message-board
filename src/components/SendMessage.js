@@ -9,7 +9,7 @@ const style = {
 };
 
 const SendMessage = (scroll) => {
-  const [input, setInput] = useState("");
+  var [input, setInput] = useState("");
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -19,10 +19,18 @@ const SendMessage = (scroll) => {
       return;
     }
 
-    const { uid, displayName } = auth.currentUser;
+    const { uid, displayName, email } = auth.currentUser;
+
+    console.log("unfiltered: " + input);
+
+    const Filter = require("bad-words"),
+      filter = new Filter();
+    input = filter.clean(input);
+
     await addDoc(collection(db, "messages"), {
       text: input,
       name: displayName,
+      email: email,
       uid,
       timestamp: serverTimestamp(),
     });

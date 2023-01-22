@@ -17,7 +17,6 @@ function App() {
   return (
     <div className={style.appContainer}>
       <section className={style.sectionContainer}>
-        {/* Navbar */}
         <Navbar />
         <br></br>
         {user ? <MessageBoard /> : <SignIn />}

@@ -10,24 +10,30 @@ const style = {
   you: `text-gray-400 italic`,
 };
 
+const DisplayName = ({ message }) => {
+  const addYou =
+    message.uid === auth.currentUser.uid ? (
+      <span className={style.you}> (You)</span>
+    ) : null;
+
+  return (
+    <p className={style.name}>
+      {message.name ? message.name : message.email} {addYou}
+    </p>
+  );
+};
+
 const Message = ({ message }) => {
   const messageClass =
     message.uid === auth.currentUser.uid
       ? `${style.sent}`
       : `${style.received}`;
 
-  const addYou =
-    message.uid === auth.currentUser.uid ? (
-      <span className={style.you}> (You)</span>
-    ) : null;
-
   const timestamp = message.timestamp;
 
   return (
     <div>
-      <p className={style.name}>
-        {message.name} {addYou}
-      </p>
+      <DisplayName message={message} />
       <div className={`${style.message} ${messageClass}`}>
         <p className={messageClass}>{message.text}</p>
       </div>
