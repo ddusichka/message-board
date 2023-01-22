@@ -8,6 +8,7 @@ This app uses React components and stores messages and user info in Firebase. Th
 
 ## Requirements
 
-This app meets the requirements because users can post anonymous messages up to 128 characters. All posted messages are sorted from most to least recent, and users on different computers can post to the same board. The app also supports logging in with Google, or with an email and password. Users can also remain anonymous if they wish. Finally, bad words are prevented.
+This app meets the requirements because users can post anonymous messages up to 128 characters. All posted messages are sorted from most to least recent, and users on different computers can post to the same board. The app also supports logging in with Google, or with an email and password. Users can also remain anonymous if they wish. Finally, bad words are prevented as a bonus feature.
 
-## To run:
+## To use:
+Visit https://c4c-message-board.netlify.app/
