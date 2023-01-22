@@ -12,3 +12,7 @@ This app meets the requirements because users can post anonymous messages up to 
 
 ## To use:
 Visit https://c4c-message-board.netlify.app/
+
+OR to run locally: 
+clone this repo using git clone https://github.com/ddusichka/message-board.git
+open a terminal, run **npm install** and then **npm start**
