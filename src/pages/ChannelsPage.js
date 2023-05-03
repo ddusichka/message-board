@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { query, collection, onSnapshot } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import { db } from "../firebase";
@@ -11,7 +11,6 @@ const style = {
 
 const ChannelsPage = () => {
   const [channels, setChannels] = useState([]);
-  const scroll = useRef();
 
   useEffect(() => {
     const q = query(collection(db, "channels"));
