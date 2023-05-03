@@ -3,12 +3,12 @@ import { auth, db } from "../firebase";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
 const style = {
-  form: `h-14 w-full max-w-[728px] flex text-xl bottom-00`,
+  form: `h-14 w-full flex text-xl bottom-00`,
   input: `caret-black w-full text-xl p-3 bg-gray-300 text-black outline-none border-none`,
   button: `w-[20%] bg-[#455DBB] text-white`,
 };
 
-const SendMessage = (scroll) => {
+const SendMessage = ({ channel, scroll }) => {
   var [input, setInput] = useState("");
 
   const sendMessage = async (e) => {
@@ -19,24 +19,20 @@ const SendMessage = (scroll) => {
       return;
     }
 
-    const { uid, displayName, email } = auth.currentUser;
-
-    console.log("unfiltered: " + input);
+    const { uid, displayName } = auth.currentUser;
 
     const Filter = require("bad-words"),
       filter = new Filter();
     input = filter.clean(input);
 
-    await addDoc(collection(db, "messages"), {
+    await addDoc(collection(db, `channels/${channel}/messages`), {
       text: input,
       name: displayName,
-      email: email,
       uid,
       timestamp: serverTimestamp(),
     });
 
     setInput("");
-    scroll.current.scrollIntoView({ behavior: "smooth" });
   };
 
   return (

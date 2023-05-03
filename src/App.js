@@ -1,27 +1,33 @@
 import React from "react";
+import { Routes, Route } from "react-router-dom";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import ChatPage from "./pages/ChatPage";
+import ChannelsPage from "./pages/ChannelsPage";
+import ProfilePage from "./pages/ProfilePage";
 import Navbar from "./components/Navbar";
-import MessageBoard from "./components/MessageBoard";
-import SignIn from "./components/SignIn";
-
-import { auth } from "./firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
+import Sidebar from "./components/Sidebar";
 
 const style = {
-  appContainer: `max-w-[728px] mx-auto text-center`,
-  sectionContainer: `flex flex-col bg-gray-100 mt-10 shadow-xl border relative`,
+  main: `flex flex-initial`,
 };
 
 function App() {
-  const [user] = useAuthState(auth);
-
   return (
-    <div className={style.appContainer}>
-      <section className={style.sectionContainer}>
-        <Navbar />
-        <br></br>
-        {user ? <MessageBoard /> : <SignIn />}
-      </section>
-    </div>
+    <main>
+      <Navbar />
+      {/* <div style={{ display: "flex", height: "100vh" }}> */}
+      <div className={style.main}>
+        <Sidebar />
+        <Routes>
+          <Route exact path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/channels" element={<ChannelsPage />} />
+          <Route path="/channels/:channel" element={<ChatPage />} />
+        </Routes>
+      </div>
+    </main>
   );
 }
 

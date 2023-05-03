@@ -14,13 +14,13 @@ const style = {
   main: `flex flex-col p-[10px] relative overflow-auto`,
 };
 
-const MessageBoard = () => {
+const MessageBoard = ({ channel }) => {
   const [messages, setMessages] = useState([]);
   const scroll = useRef();
 
   useEffect(() => {
     const q = query(
-      collection(db, "messages"),
+      collection(db, `channels/${channel}/messages`),
       orderBy("timestamp", "desc"),
       limit(20)
     );
@@ -33,11 +33,11 @@ const MessageBoard = () => {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [channel]);
 
   return (
     <>
-      <SendMessage scroll={scroll} />
+      <SendMessage channel={channel} scroll={scroll} />
       <br></br>
       <main className={style.main}>
         {messages &&
