@@ -14,7 +14,7 @@ const GoogleSignIn = () => {
   const googleSignIn = () => {
     const provider = new GoogleAuthProvider();
     signInWithRedirect(auth, provider);
-    navigate("/chat");
+    navigate("/home");
   };
 
   return (

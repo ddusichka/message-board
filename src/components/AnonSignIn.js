@@ -24,7 +24,7 @@ const AnonSignIn = () => {
         updateProfile(auth.currentUser, {
           displayName: "Anonymous ".concat(randomAnimal),
         });
-        navigate("/chat");
+        navigate("/home");
       })
       .catch((error) => {
         const errorCode = error.code;

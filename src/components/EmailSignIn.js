@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
@@ -12,13 +11,13 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 import { auth } from "../firebase";
 
 const style = {
-  mainbutton: `bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded h-12 w-[240px] text-center text-base block rounded-none cursor-pointer select-none mt-4`,
   button: `bg-blue-500 hover:bg-blue-600 text-white  rounded h-12 w-24 text-center text-base block rounded-none cursor-pointer select-none mt-8`,
   outlineButton: `hover:bg-blue-600 text-black py-2 px-4 rounded h-12 w-24 text-center text-base block rounded-none cursor-pointer select-none mt-6`,
   form: `bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4`,
-  label: `block text-gray-700 text-sm font-bold mb-2 mt-4`,
+  label: `block text-gray-700 text-sm font-bold mb-2 mt-4 text-left`,
   input: `shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`,
-  flex: `flex items-center justify-between`,
+  flex: `flex`,
+  error: `text-red-500`,
 };
 
 const EmailSignIn = () => {
@@ -26,22 +25,13 @@ const EmailSignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [show, setShow] = useState(false);
   const [existingUser, setExistingUser] = useState();
-
-  /* Handle opening and closing the modal. */
-  const handleClose = () => {
-    setShow(false);
-    setEmail(null);
-    setExistingUser(null);
-  };
-  const handleShow = () => setShow(true);
+  const [error, setError] = useState();
 
   /* Check if a user with the given email already exists. */
   async function emailLookUp() {
     const docRef = doc(db, "users", email);
     const docSnap = await getDoc(docRef);
-
     if (docSnap.exists()) {
       /* If we find a matching user... */
       setExistingUser(true);
@@ -59,19 +49,14 @@ const EmailSignIn = () => {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log(user);
-
         setDoc(doc(db, "users", email), {
           name: name,
         });
 
-        navigate("/chat");
+        navigate("/home");
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-        // ..
+        setError(error.message);
       });
   };
 
@@ -82,17 +67,10 @@ const EmailSignIn = () => {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log(user);
-        updateProfile(auth.currentUser, {
-          displayName: name,
-        });
-        console.log(name);
-        navigate("/chat");
+        navigate("/home");
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+        setError(error.message);
       });
   };
 
@@ -102,7 +80,7 @@ const EmailSignIn = () => {
       <div>
         <p>We'll check if you have an account and create one if you don't.</p>
 
-        <form show={true}>
+        <form>
           <label className={style.label} htmlFor="email-address">
             Email address
           </label>
@@ -141,6 +119,7 @@ const EmailSignIn = () => {
           required
           placeholder="Enter password"
         />
+        {error ? <p className={style.error}>{error}</p> : null}
       </div>
     );
   };
@@ -156,6 +135,7 @@ const EmailSignIn = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Sarah Smith"
+          autofocus="true"
         />
       </form>
     );
@@ -189,29 +169,13 @@ const EmailSignIn = () => {
   };
 
   return (
-    <>
-      <button className={style.mainbutton} onClick={handleShow}>
-        Continue with email
-      </button>
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>Continue with email</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {existingUser === null
-            ? emailInput()
-            : existingUser === true
-            ? signInForm()
-            : signUpForm()}
-        </Modal.Body>
-        <Modal.Footer></Modal.Footer>
-      </Modal>
-    </>
+    <div>
+      {!existingUser
+        ? emailInput()
+        : existingUser === true
+        ? signInForm()
+        : signUpForm()}
+    </div>
   );
 };
 
