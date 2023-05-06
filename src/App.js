@@ -1,30 +1,33 @@
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "./firebase";
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import ChatPage from "./pages/ChatPage";
-import ChannelsPage from "./pages/ChannelsPage";
 import ProfilePage from "./pages/ProfilePage";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
+import NewChannelPage from "./pages/NewChannelPage";
 
 const style = {
   main: `flex flex-initial`,
 };
 
 function App() {
+  const [user] = useAuthState(auth);
+
   return (
     <main>
       <Navbar />
-      {/* <div style={{ display: "flex", height: "100vh" }}> */}
       <div className={style.main}>
-        <Sidebar />
+        {auth.currentUser ? <Sidebar /> : null}
         <Routes>
-          <Route exact path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route exact path="/" element={<LoginPage />} />
+          <Route path="/home" element={<HomePage />} />
           <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/channels" element={<ChannelsPage />} />
-          <Route path="/channels/:channel" element={<ChatPage />} />
+          <Route path="/channels/:channel" element={<ChatPage />} />{" "}
+          <Route path="/newChannel" element={<NewChannelPage />} />
         </Routes>
       </div>
     </main>
