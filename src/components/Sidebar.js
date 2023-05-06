@@ -22,15 +22,25 @@ const SideBar = () => {
   }, []);
 
   return (
-    <div style={{ display: "flex", height: "100%" }}>
-      <Sidebar>
-        <Menu>
+    <div style={{ display: "flex", height: "100%", minHeight: "90vh" }}>
+      <Sidebar backgroundColor="#eecef9">
+        <Menu
+          menuItemStyles={{
+            button: ({ level, active, disabled }) => {
+              // only apply styles on first level elements of the tree
+              return {
+                backgroundColor: active ? "#eecef9" : "#eecef9",
+              };
+            },
+          }}
+        >
           <MenuItem component={<Link to={"/home"} />}>Home</MenuItem>
           <MenuItem component={<Link to={"/profile"} />}>Profile</MenuItem>
-          <SubMenu label="Channels">
+          <SubMenu label="Channels" defaultOpen={true}>
             {channels &&
               channels.map((channel) => (
                 <MenuItem
+                  key={channel.id}
                   component={
                     <Link to={`/channels/${channel.id}`}>{channel.id}</Link>
                   }
@@ -38,6 +48,9 @@ const SideBar = () => {
                   {channel.id}
                 </MenuItem>
               ))}
+            <MenuItem component={<Link to={"/newChannel"} />}>
+              New channel
+            </MenuItem>
           </SubMenu>
         </Menu>
       </Sidebar>
