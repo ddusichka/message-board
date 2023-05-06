@@ -1,5 +1,6 @@
 import React from "react";
 import { auth } from "./firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
@@ -14,11 +15,13 @@ const style = {
 };
 
 function App() {
+  const [user] = useAuthState(auth);
+
   return (
     <main>
       <Navbar />
       <div className={style.main}>
-        {auth.currentUser ? <Sidebar /> : null}
+        {user ? <Sidebar /> : null}
         <Routes>
           <Route exact path="/" element={<LoginPage />} />
           <Route path="/home" element={<HomePage />} />
