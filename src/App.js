@@ -1,5 +1,4 @@
 import React from "react";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./firebase";
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
@@ -15,8 +14,6 @@ const style = {
 };
 
 function App() {
-  const [user] = useAuthState(auth);
-
   return (
     <main>
       <Navbar />

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  updateProfile,
 } from "firebase/auth";
 import { db } from "../firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
@@ -48,7 +47,6 @@ const EmailSignIn = () => {
     await createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
-        const user = userCredential.user;
         setDoc(doc(db, "users", email), {
           name: name,
         });
@@ -66,7 +64,6 @@ const EmailSignIn = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
-        const user = userCredential.user;
         navigate("/home");
       })
       .catch((error) => {
