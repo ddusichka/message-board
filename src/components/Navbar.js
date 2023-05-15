@@ -16,7 +16,7 @@ const Navbar = () => {
   return (
     <div className={style.nav}>
       <img src={chatBubble} alt="Logo" width="60" />
-      <h1 className={style.heading}></h1>
+      <h1 className={style.heading}>Message Board</h1>
       {user ? <SignOut /> : null}
     </div>
   );
