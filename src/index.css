@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* This is for menu item */
+.ps-menu-button .active {
+  color: rgb(0, 0, 0); /* put any color you want */
+  font-weight: 800;
+}

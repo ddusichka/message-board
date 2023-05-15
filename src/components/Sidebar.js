@@ -4,9 +4,30 @@ import { Link } from "react-router-dom";
 import { db } from "../firebase";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 
+const style = {
+  main: `flex h-screen sticky top-[80px] left-0 z-10`,
+};
+
+const menuItemStyles = {
+  backgroundColor: "#F2E8FE",
+  root: {
+    fontSize: "15px",
+    fontWeight: 400,
+  },
+  SubMenuExpandIcon: {
+    color: "#1d232a",
+  },
+  subMenuContent: ({ level }) => ({
+    backgroundColor: "#F2E8FE",
+  }),
+  label: ({ open }) => ({
+    fontWeight: open ? 400 : undefined,
+  }),
+};
+
 const SideBar = () => {
-  // const { collapseSidebar } = useProSidebar();
   const [channels, setChannels] = useState([]);
+  const [activePage, setActivePage] = useState(null);
 
   useEffect(() => {
     const q = query(collection(db, "channels"));
@@ -21,34 +42,42 @@ const SideBar = () => {
     return () => unsubscribe();
   }, []);
 
+  function handleActive(event) {
+    if (!event.target.classList.value.includes("active")) {
+      event.target.classList.toggle("active");
+      if (activePage) activePage.classList.remove("active");
+      setActivePage(event.target);
+    }
+  }
+
   return (
-    <div style={{ display: "flex", height: "100%", minHeight: "90vh" }}>
-      <Sidebar backgroundColor="#eecef9">
-        <Menu
-          menuItemStyles={{
-            button: ({ level, active, disabled }) => {
-              // only apply styles on first level elements of the tree
-              return {
-                backgroundColor: active ? "#eecef9" : "#eecef9",
-              };
-            },
-          }}
-        >
-          <MenuItem component={<Link to={"/home"} />}>Home</MenuItem>
-          <MenuItem component={<Link to={"/profile"} />}>Profile</MenuItem>
+    <div className={style.main}>
+      <Sidebar backgroundColor="#F2E8FE">
+        <Menu menuItemStyles={menuItemStyles}>
+          <MenuItem component={<Link to={"/home"} onClick={handleActive} />}>
+            Home
+          </MenuItem>
+          <MenuItem component={<Link to={"/profile"} onClick={handleActive} />}>
+            Profile
+          </MenuItem>
           <SubMenu label="Channels" defaultOpen={true}>
             {channels &&
               channels.map((channel) => (
                 <MenuItem
                   key={channel.id}
                   component={
-                    <Link to={`/channels/${channel.id}`}>{channel.id}</Link>
+                    <Link
+                      to={`/channels/${channel.id}`}
+                      onClick={handleActive}
+                    />
                   }
                 >
-                  {channel.id}
+                  {"#" + channel.id}
                 </MenuItem>
               ))}
-            <MenuItem component={<Link to={"/newChannel"} />}>
+            <MenuItem
+              component={<Link to={"/newChannel"} onClick={handleActive} />}
+            >
               New channel
             </MenuItem>
           </SubMenu>
