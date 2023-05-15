@@ -124,8 +124,11 @@ const ProfilePage = () => {
     <div className={style.appContainer}>
       <div>
         <h2>Welcome, {initialName}</h2>
-        <h5>Edit any profile information here. </h5>
-
+        {email ? (
+          <h5>Edit any profile information here.</h5>
+        ) : (
+          <h5>You don't have a profile because you're anonymous!</h5>
+        )}
         {email ? form() : null}
       </div>
     </div>

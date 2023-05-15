@@ -9,6 +9,7 @@ const HomePage = () => {
   return (
     <div className={style.par}>
       <p>Welcome to the message board!</p>
+      <p>Select a channel from the list on the left.</p>
     </div>
   );
 };
