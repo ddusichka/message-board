@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   query,
   collection,
@@ -13,15 +13,15 @@ import Message from "./Message";
 import SendMessage from "./SendMessage";
 
 const style = {
-  main: `flex flex-col p-[10px] relative overflow-auto max-h-[77vh]	`,
-  header: `text-left ml-5 font-bold`,
-  text: `text-left ml-5 mb-5`,
+  channelInfo: `sticky top-20 bg-white items-center px-2 py-4 z-10`,
+  messages: `flex-grow overflow-y-scroll px-4 py-2 flex flex-col p-[10px] z-3`,
+  header: `ml-5 font-bold z-10`,
+  text: `ml-5`,
 };
 
 const MessageBoard = ({ channel }) => {
   const [messages, setMessages] = useState([]);
   const [description, setDescription] = useState();
-  const scroll = useRef();
   getDescription();
 
   async function getDescription() {
@@ -50,19 +50,19 @@ const MessageBoard = ({ channel }) => {
   }, [channel]);
 
   return (
-    <>
-      <main className={style.main} scroll={scroll}>
+    <main className={style.sectionContainer}>
+      <div className={style.channelInfo}>
         <h2 className={style.header}>Welcome to #{channel}!</h2>
         <h4 className={style.text}>{description}</h4>
+      </div>
+      <div className={style.messages}>
         {messages &&
           messages.map((message) => (
-            <Message key={message.id} message={message} />
+            <Message key={message.id} message={message} channel={channel} />
           ))}
-      </main>
-
-      <SendMessage channel={channel} scroll={scroll} />
-      <span ref={scroll}></span>
-    </>
+      </div>
+      <SendMessage channel={channel} />
+    </main>
   );
 };
 

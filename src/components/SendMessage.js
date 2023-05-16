@@ -3,8 +3,9 @@ import { auth, db } from "../firebase";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 
 const style = {
-  form: `h-14 w-full flex text-xl bottom-00`,
-  input: `caret-black w-full text-xl p-3 bg-gray-300 text-black outline-none border-none`,
+  main: `sticky bg-white bottom-0 items-center px-2 py-2 z-10`,
+  form: `h-14 w-full flex text-xl bottom-0`,
+  input: `caret-black w-full text-xl p-3 bg-gray-300 text-black`,
   button: `w-[20%] bg-[#455DBB] text-white`,
 };
 
@@ -36,18 +37,20 @@ const SendMessage = ({ channel, scroll }) => {
   };
 
   return (
-    <form onSubmit={sendMessage} className={style.form}>
-      <input
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        className={style.input}
-        type="text"
-        placeholder="Message"
-      />
-      <button className={style.button} type="submit">
-        Send
-      </button>
-    </form>
+    <div className={style.main}>
+      <form onSubmit={sendMessage} className={style.form}>
+        <input
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          className={style.input}
+          type="text"
+          placeholder="Message"
+        />
+        <button className={style.button} type="submit">
+          Send
+        </button>
+      </form>
+    </div>
   );
 };
 

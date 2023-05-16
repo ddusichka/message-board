@@ -5,9 +5,7 @@ import { auth } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 const style = {
-  appContainer: `flex-1 mx-auto text-center`,
-  // set max width: max-w-[728px]
-  sectionContainer: `flex flex-col mx-auto  bg-gray-100 shadow-xl border relative`,
+  appContainer: `flex-1 mx-auto`,
 };
 
 const ChatPage = () => {
@@ -17,10 +15,7 @@ const ChatPage = () => {
 
   return (
     <div className={style.appContainer}>
-      <section className={style.sectionContainer}>
-        <br></br>
-        {user ? <MessageBoard channel={channel} /> : navigate("/login")}
-      </section>
+      {user ? <MessageBoard channel={channel} /> : navigate("/login")}
     </div>
   );
 };

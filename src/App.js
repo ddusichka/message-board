@@ -26,7 +26,7 @@ function App() {
           <Route exact path="/" element={<LoginPage />} />
           <Route path="/home" element={<HomePage />} />
           <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/channels/:channel" element={<ChatPage />} />{" "}
+          <Route path="/channels/:channel" element={<ChatPage />} />
           <Route path="/newChannel" element={<NewChannelPage />} />
         </Routes>
       </div>
