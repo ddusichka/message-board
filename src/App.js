@@ -11,16 +11,17 @@ import Sidebar from "./components/Sidebar";
 import NewChannelPage from "./pages/NewChannelPage";
 
 const style = {
-  main: `flex flex-initial`,
+  main: `flex-col`,
+  container: `grow-0 flex`,
 };
 
 function App() {
   const [user] = useAuthState(auth);
 
   return (
-    <main>
+    <main className={style.main}>
       <Navbar />
-      <div className={style.main}>
+      <div className={style.container}>
         {user ? <Sidebar /> : null}
         <Routes>
           <Route exact path="/" element={<LoginPage />} />

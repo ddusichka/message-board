@@ -5,7 +5,7 @@ import { db } from "../firebase";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 
 const style = {
-  main: `flex h-screen sticky top-[80px] z-10`,
+  main: `flex h-[calc(100vh-80px)] sticky top-[80px] z-10`,
 };
 
 const menuItemStyles = {
