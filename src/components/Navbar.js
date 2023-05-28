@@ -5,9 +5,9 @@ import { auth } from "../firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 const style = {
-  nav: `bg-purple-200 h-20 sticky top-0 flex justify-between items-center p-4 z-50`,
-  heading: `text-black text-3xl`,
-  hide: `invisible`,
+  nav: `bg-purple-200 h-20 sticky top-0 flex items-center p-4 z-50`,
+  img: `justify-start mr-4`,
+  heading: `flex-1 text-black text-3xl text-center`,
 };
 
 const Navbar = () => {
@@ -15,9 +15,9 @@ const Navbar = () => {
 
   return (
     <div className={style.nav}>
-      <img src={chatBubble} alt="Logo" width="60" />
+      <img className={style.img} src={chatBubble} alt="Logo" width="60" />
       <h1 className={style.heading}>Message Board</h1>
-      {user ? <SignOut /> : null}
+      {user && <SignOut />}
     </div>
   );
 };
