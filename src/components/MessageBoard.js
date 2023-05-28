@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   query,
   collection,
   orderBy,
-  limit,
   onSnapshot,
   doc,
   getDoc,
@@ -22,6 +21,7 @@ const style = {
 const MessageBoard = ({ channel }) => {
   const [messages, setMessages] = useState([]);
   const [description, setDescription] = useState();
+  const messagesEndRef = useRef(null); // Ref for the end of messages container
   getDescription();
 
   async function getDescription() {
@@ -34,8 +34,7 @@ const MessageBoard = ({ channel }) => {
   useEffect(() => {
     const q = query(
       collection(db, `channels/${channel}/messages`),
-      orderBy("timestamp", "asc"),
-      limit(20)
+      orderBy("timestamp", "asc")
     );
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -49,6 +48,14 @@ const MessageBoard = ({ channel }) => {
     return () => unsubscribe();
   }, [channel]);
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <main className={style.sectionContainer}>
       <div className={style.channelInfo}>
@@ -60,6 +67,7 @@ const MessageBoard = ({ channel }) => {
           messages.map((message) => (
             <Message key={message.id} message={message} channel={channel} />
           ))}
+        <div ref={messagesEndRef} /> {/* Ref to scroll to */}
       </div>
       <SendMessage channel={channel} />
     </main>
