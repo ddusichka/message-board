@@ -38,7 +38,7 @@ const NewChannelPage = () => {
             onChange={(e) => setName(e.target.value)}
             required
             placeholder={"General"}
-            autofocus="true"
+            autoFocus={true}
           />
           <label className={style.label} htmlFor="channel-desc">
             Channel description
