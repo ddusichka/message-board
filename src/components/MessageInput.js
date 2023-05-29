@@ -15,8 +15,7 @@ const MessageInput = ({ channel }) => {
   const sendMessage = async (e) => {
     e.preventDefault();
 
-    if (input === "" || input.length > 128) {
-      alert("Please enter a valid message between 0 and 128 characters!");
+    if (input === "") {
       return;
     }
 
