@@ -24,6 +24,11 @@ const DisplayName = ({ message }) => {
 };
 
 const Message = ({ message }) => {
+  if (!message.text || !message.timestamp) {
+    // Return null if the message content is not available yet
+    return null;
+  }
+
   const messageClass =
     message.uid === auth.currentUser.uid
       ? `${style.sent}`
