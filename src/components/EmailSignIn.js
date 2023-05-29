@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { db } from "../firebase";
 import { doc, setDoc, getDoc } from "firebase/firestore";
@@ -11,12 +12,10 @@ import { auth } from "../firebase";
 
 const style = {
   button: `bg-blue-500 hover:bg-blue-600 text-white  rounded h-12 w-24 text-center text-base block rounded-none cursor-pointer select-none mt-8`,
-  outlineButton: `hover:bg-blue-600 text-black py-2 px-4 rounded h-12 w-24 text-center text-base block rounded-none cursor-pointer select-none mt-6`,
-  form: `bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4`,
   label: `block text-gray-700 text-sm font-bold mb-2 mt-4 text-left`,
   input: `shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`,
-  flex: `flex`,
   error: `text-red-500`,
+  text: `text-left`,
 };
 
 const EmailSignIn = () => {
@@ -35,8 +34,10 @@ const EmailSignIn = () => {
       /* If we find a matching user... */
       setExistingUser(true);
       setName(docSnap.data().name);
+      console.log("Existing user has been found.");
     } else {
       setExistingUser(false);
+      console.log("No existing user has been found.");
     }
   }
 
@@ -44,31 +45,31 @@ const EmailSignIn = () => {
   const signUp = async (e) => {
     e.preventDefault();
 
-    await createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        setDoc(doc(db, "users", email), {
-          name: name,
-        });
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      const user = auth.currentUser;
 
-        navigate("/home");
-      })
-      .catch((error) => {
-        setError(error.message);
+      await updateProfile(user, { displayName: name });
+      await setDoc(doc(db, "users", email), {
+        name: name,
       });
+
+      navigate("/home");
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   /* Sign in an existing user. */
-  const signIn = (e) => {
+  const signIn = async (e) => {
     e.preventDefault();
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        navigate("/home");
-      })
-      .catch((error) => {
-        setError(error.message);
-      });
+
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      navigate("/home");
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   /* Form containing an email input. */
@@ -76,26 +77,19 @@ const EmailSignIn = () => {
     return (
       <div>
         <p>We'll check if you have an account and create one if you don't.</p>
-
-        <form>
-          <label className={style.label} htmlFor="email-address">
-            Email address
-          </label>
-          <input
-            className={style.input}
-            type="email"
-            label="Email address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            placeholder="sarah@example.com"
-          />
-        </form>
-        <div className={style.flex}>
-          <button className={style.button} onClick={emailLookUp}>
-            Continue
-          </button>
-        </div>
+        <label className={style.label} htmlFor="email-address">
+          Email address
+        </label>
+        <input
+          className={style.input}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          placeholder="sarah@example.com"
+        />
+        <button className={style.button} onClick={emailLookUp}>
+          Continue
+        </button>
       </div>
     );
   };
@@ -110,7 +104,6 @@ const EmailSignIn = () => {
         <input
           className={style.input}
           type="password"
-          label="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
@@ -121,28 +114,11 @@ const EmailSignIn = () => {
     );
   };
 
-  const nameInput = () => {
-    return (
-      <form show={true}>
-        <label className={style.label}> Name</label>
-        <input
-          className={style.input}
-          type="name"
-          label="Display name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Sarah Smith"
-          autofocus="true"
-        />
-      </form>
-    );
-  };
-
   /* Form used to sign in. */
   const signInForm = () => {
     return (
       <div>
-        <p>Welcome back, {name}!</p>
+        <p className={style.text}>Welcome back, {name}!</p>
         {passwordInput()}
         <button className={style.button} onClick={signIn}>
           Sign in
@@ -155,9 +131,19 @@ const EmailSignIn = () => {
   const signUpForm = () => {
     return (
       <div>
-        <p>Enter your name and create a password.</p>
-        {nameInput()}
-        {passwordInput()}
+        <p className={style.text}>Enter your name and create a password.</p>
+        <form>
+          <label className={style.label}> Name</label>
+          <input
+            className={style.input}
+            type="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Sarah Smith"
+            autoFocus={true}
+          />
+          {passwordInput()}
+        </form>
         <button className={style.button} onClick={signUp}>
           Sign up
         </button>
@@ -167,11 +153,9 @@ const EmailSignIn = () => {
 
   return (
     <div>
-      {!existingUser
-        ? emailInput()
-        : existingUser === true
-        ? signInForm()
-        : signUpForm()}
+      {existingUser == null && emailInput()}
+      {existingUser === true && signInForm()}
+      {existingUser === false && signUpForm()}
     </div>
   );
 };
