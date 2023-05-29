@@ -9,7 +9,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import Message from "./Message";
-import SendMessage from "./SendMessage";
+import MessageInput from "./MessageInput";
 
 const style = {
   channelInfo: `sticky top-20 bg-white items-center px-2 py-4 z-10`,
@@ -69,7 +69,7 @@ const MessageBoard = ({ channel }) => {
           ))}
         <div ref={messagesEndRef} />
       </div>
-      <SendMessage channel={channel} />
+      <MessageInput channel={channel} />
     </main>
   );
 };

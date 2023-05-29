@@ -9,7 +9,7 @@ const style = {
   button: `w-[20%] bg-[#455DBB] text-white`,
 };
 
-const SendMessage = ({ channel }) => {
+const MessageInput = ({ channel }) => {
   var [input, setInput] = useState("");
 
   const sendMessage = async (e) => {
@@ -55,4 +55,4 @@ const SendMessage = ({ channel }) => {
   );
 };
 
-export default SendMessage;
+export default MessageInput;
