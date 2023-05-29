@@ -16,7 +16,6 @@ const NewChannelPage = () => {
   const navigate = useNavigate();
 
   async function create() {
-    // TODO:
     await setDoc(doc(db, "channels", name), {
       description: desc,
       createdDate: serverTimestamp(),

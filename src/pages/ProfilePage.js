@@ -44,63 +44,55 @@ const ProfilePage = () => {
     }
   }
 
-  const form = () => {
-    return (
-      <div>
-        <form>
-          <label className={style.label} htmlFor="email-address">
-            Email address
-          </label>
-          <input
-            className={style.input}
-            type="email"
-            label="Email address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-            placeholder={email}
-          />
-          <label className={style.label} htmlFor="email-address">
-            Display name
-          </label>
-          <input
-            className={style.input}
-            type="name"
-            label="Display name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            placeholder={name}
-          />
-          <label className={style.label} htmlFor="new-password">
-            New password
-          </label>
-          <input
-            className={style.input}
-            type="password"
-            label="New password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            required
-          />
-        </form>
-        <button className={style.button} onClick={updateName}>
-          Update
-        </button>
-      </div>
-    );
-  };
-
   return (
     <div className={style.appContainer}>
       <div>
         <h2>Welcome, {initialName}</h2>
         {email ? (
-          <h5>Edit any profile information here.</h5>
+          <div>
+            <h5>Edit any profile information here.</h5>
+            <form>
+              <label className={style.label} htmlFor="email-address">
+                Email address
+              </label>
+              <input
+                className={style.input}
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder={email}
+              />
+              <label className={style.label} htmlFor="email-address">
+                Display name
+              </label>
+              <input
+                className={style.input}
+                type="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                placeholder={name}
+              />
+              <label className={style.label} htmlFor="new-password">
+                New password
+              </label>
+              <input
+                className={style.input}
+                type="password"
+                label="New password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                required
+              />
+            </form>
+            <button className={style.button} onClick={updateName}>
+              Update
+            </button>
+          </div>
         ) : (
           <h5>You don't have a profile because you're anonymous!</h5>
         )}
-        {email ? form() : null}
       </div>
     </div>
   );
