@@ -5,8 +5,7 @@ import EmailSignInButton from "../components/EmailSignInButton";
 import GoogleSignIn from "../components/GoogleSignIn";
 
 const style = {
-  container: `flex-1 h-screen justify-center ml-10 mt-10`,
-  wrapper: `text-center space-y-8`,
+  container: `flex-1 h-screen flex justify-center ml-10 mt-10 space-y-8`,
 };
 
 const LoginPage = () => {
@@ -17,20 +16,16 @@ const LoginPage = () => {
   }
 
   return (
-    <div>
-      <div className={style.container}>
-        <div className={style.wrapper}>
-          {!showEmailForm ? (
-            <div>
-              <AnonSignIn />
-              <EmailSignInButton showEmailForm={showForm} />
-              <GoogleSignIn />
-            </div>
-          ) : (
-            <EmailSignIn />
-          )}
+    <div className={style.container}>
+      {!showEmailForm ? (
+        <div>
+          <AnonSignIn />
+          <EmailSignInButton showEmailForm={showForm} />
+          <GoogleSignIn />
         </div>
-      </div>
+      ) : (
+        <EmailSignIn />
+      )}
     </div>
   );
 };

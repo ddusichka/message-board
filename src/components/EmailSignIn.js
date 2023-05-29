@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  sendPasswordResetEmail,
   updateProfile,
 } from "firebase/auth";
 import { db } from "../firebase";
@@ -11,11 +12,13 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 import { auth } from "../firebase";
 
 const style = {
-  button: `bg-blue-500 hover:bg-blue-600 text-white  rounded h-12 w-24 text-center text-base block rounded-none cursor-pointer select-none mt-8`,
+  button: `bg-blue-500 hover:bg-blue-600 text-white h-12 w-24 text-center rounded cursor-pointer mt-8 mr-10`,
+  outlineButton: `border border-gray-200 text-black h-12 w-34 text-center rounded cursor-pointer mt-8 mr-10 px-2`,
   label: `block text-gray-700 text-sm font-bold mb-2 mt-4 text-left`,
   input: `shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline`,
   error: `text-red-500`,
   text: `text-left`,
+  flex: `flex`,
 };
 
 const EmailSignIn = () => {
@@ -25,6 +28,7 @@ const EmailSignIn = () => {
   const [name, setName] = useState("");
   const [existingUser, setExistingUser] = useState();
   const [error, setError] = useState();
+  const [message, setMessage] = useState();
 
   /* Check if a user with the given email already exists. */
   async function emailLookUp() {
@@ -38,6 +42,15 @@ const EmailSignIn = () => {
     } else {
       setExistingUser(false);
       console.log("No existing user has been found.");
+    }
+  }
+
+  async function forgotPassword() {
+    try {
+      sendPasswordResetEmail(auth, email);
+      setMessage("Password reset email has been sent.");
+    } catch (error) {
+      setError(error.message);
     }
   }
 
@@ -120,9 +133,15 @@ const EmailSignIn = () => {
       <div>
         <p className={style.text}>Welcome back, {name}!</p>
         {passwordInput()}
-        <button className={style.button} onClick={signIn}>
-          Sign in
-        </button>
+        <p className="text-left mt-2">{message}</p>
+        <div className={style.flex}>
+          <button className={style.button} onClick={signIn}>
+            Sign in
+          </button>
+          <button className={style.outlineButton} onClick={forgotPassword}>
+            Reset password
+          </button>
+        </div>
       </div>
     );
   };
