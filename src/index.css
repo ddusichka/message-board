@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* This is for menu item */
-.ps-menu-button .active {
+.ps-menuitem-root.active .ps-menu-label {
   color: rgb(0, 0, 0); /* put any color you want */
   font-weight: 800;
 }

@@ -43,10 +43,13 @@ const SideBar = () => {
   }, []);
 
   function handleActive(event) {
-    if (!event.target.classList.value.includes("active")) {
-      event.target.classList.toggle("active");
+    const menuItem = event.target.closest(".ps-menuitem-root");
+    console.log(menuItem);
+    if (menuItem && !menuItem.classList.contains("active")) {
+      menuItem.classList.add("active");
+
       if (activePage) activePage.classList.remove("active");
-      setActivePage(event.target);
+      setActivePage(menuItem);
     }
   }
 
@@ -83,10 +86,6 @@ const SideBar = () => {
           </SubMenu>
         </Menu>
       </Sidebar>
-      {/*
-      <main>
-        <button onClick={() => collapseSidebar()}>Collapse</button>
-      </main> */}
     </div>
   );
 };
