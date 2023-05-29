@@ -67,7 +67,7 @@ const EmailSignIn = () => {
         name: name,
       });
 
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       setError(error.message);
     }
@@ -79,7 +79,7 @@ const EmailSignIn = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate("/home");
+      navigate("/");
     } catch (error) {
       setError(error.message);
     }

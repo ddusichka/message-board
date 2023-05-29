@@ -1,4 +1,6 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../firebase";
 
 const style = {
   par: `ml-5 mt-5 flex-auto`,
@@ -6,11 +8,20 @@ const style = {
 };
 
 const HomePage = () => {
+  const navigate = useNavigate();
+  const user = auth.currentUser;
+
   return (
-    <div className={style.par}>
-      <p>Welcome to the message board!</p>
-      <p>Select a channel from the list on the left.</p>
-    </div>
+    <>
+      {user ? (
+        <div className={style.par}>
+          <p>Welcome to the message board!</p>
+          <p>Select a channel from the list on the left.</p>
+        </div>
+      ) : (
+        navigate("/login")
+      )}
+    </>
   );
 };
 

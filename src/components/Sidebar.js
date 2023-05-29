@@ -44,7 +44,6 @@ const SideBar = () => {
 
   function handleActive(event) {
     const menuItem = event.target.closest(".ps-menuitem-root");
-    console.log(menuItem);
     if (menuItem && !menuItem.classList.contains("active")) {
       menuItem.classList.add("active");
 
@@ -57,7 +56,7 @@ const SideBar = () => {
     <div className={style.main}>
       <Sidebar backgroundColor="#F2E8FE">
         <Menu menuItemStyles={menuItemStyles}>
-          <MenuItem component={<Link to={"/home"} onClick={handleActive} />}>
+          <MenuItem component={<Link to={"/"} onClick={handleActive} />}>
             Home
           </MenuItem>
           <MenuItem component={<Link to={"/profile"} onClick={handleActive} />}>

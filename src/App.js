@@ -24,8 +24,8 @@ function App() {
       <div className={style.container}>
         {user ? <Sidebar /> : null}
         <Routes>
-          <Route exact path="/" element={<LoginPage />} />
-          <Route path="/home" element={<HomePage />} />
+          <Route path="/" element={<HomePage />} />
+          <Route exact path="/login" element={<LoginPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/channels/:channel" element={<ChatPage />} />
           <Route path="/newChannel" element={<NewChannelPage />} />

@@ -11,7 +11,7 @@ const SignOut = () => {
 
   function signOut() {
     auth.signOut();
-    navigate("/");
+    navigate("/login");
   }
 
   return (
