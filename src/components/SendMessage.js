@@ -9,7 +9,7 @@ const style = {
   button: `w-[20%] bg-[#455DBB] text-white`,
 };
 
-const SendMessage = ({ channel, scroll }) => {
+const SendMessage = ({ channel }) => {
   var [input, setInput] = useState("");
 
   const sendMessage = async (e) => {

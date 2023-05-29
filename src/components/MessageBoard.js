@@ -13,7 +13,7 @@ import SendMessage from "./SendMessage";
 
 const style = {
   channelInfo: `sticky top-20 bg-white items-center px-2 py-4 z-10`,
-  messages: `flex-grow overflow-y-scroll px-4 py-2 flex flex-col p-[10px] z-3`,
+  messages: `flex-grow px-4 py-2 flex flex-col p-[10px] z-3`,
   header: `ml-5 font-bold z-10`,
   text: `ml-5`,
 };
@@ -67,7 +67,7 @@ const MessageBoard = ({ channel }) => {
           messages.map((message) => (
             <Message key={message.id} message={message} channel={channel} />
           ))}
-        <div ref={messagesEndRef} /> {/* Ref to scroll to */}
+        <div ref={messagesEndRef} />
       </div>
       <SendMessage channel={channel} />
     </main>
