@@ -24,10 +24,11 @@ const SendMessage = ({ channel, scroll }) => {
 
     const Filter = require("bad-words"),
       filter = new Filter();
-    input = filter.clean(input);
+    const cleaned = filter.clean(input);
 
     await addDoc(collection(db, `channels/${channel}/messages`), {
-      text: input,
+      text: cleaned,
+      unfiltered: input,
       name: displayName,
       uid,
       timestamp: serverTimestamp(),
